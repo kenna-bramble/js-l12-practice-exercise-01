@@ -1,13 +1,14 @@
 const randomFolks = document.querySelector(".random-peeps"); //selects the random-peeps class.
+const selectUserNumber = document.querySelector("select"); // captures the 'select' element (in the html file, <select><option value="1">1</option></select>)
 
-const getData = async function () {
+const getData = async function (numUsers) {
     const usersRequest = await fetch (
-        "https://randomuser.me/api?results=5"); //userRequest now holds the specific API info(data) that we want.
+        `https://randomuser.me/api?results=${numUsers}`); //userRequest now holds the specific API info(data) that we want.
     const data = await usersRequest.json(); //this turns the info that userRequest holds into an object (called 'data') so we can use it in our code.
     const userResults = data.results; // selects the 'results' array from the info that we just took from the API.
     displayUsers(userResults); //
 };
-getData();
+getData(1);
 
 
 const displayUsers = function (userResults) { //userResults is the array! 
@@ -26,3 +27,9 @@ const displayUsers = function (userResults) { //userResults is the array!
         randomFolks.append(userDiv); // the new div will now be located in the random-peeps class
     }
 };
+
+
+selectUserNumber.addEventListener("change", function (e) { // targets the select option value so when user clicks on it, the value of getData changes to numUsers value.
+    const numUsers = e.target.value; // numUsers captures targeted data
+    getData(numUsers);
+})
